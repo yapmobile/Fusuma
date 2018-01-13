@@ -57,6 +57,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     private var dragStartPos: CGPoint = CGPoint.zero
     private let dragDiff: CGFloat     = 20.0
     
+    private var canPanDuringThisTouch = true
+    
     static func instance() -> FSAlbumView {
         
         return UINib(nibName: "FSAlbumView", bundle: Bundle(for: self.classForCoder())).instantiate(withOwner: self, options: nil)[0] as! FSAlbumView
@@ -143,7 +145,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             let subview = view?.hitTest(loc, with: nil)
             
             if subview == imageCropView && imageCropViewConstraintTop.constant == imageCropViewOriginalConstraintTop {
-                
+                canPanDuringThisTouch = false
                 return
             }
             
@@ -171,6 +173,10 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             }
             
         } else if sender.state == UIGestureRecognizerState.changed {
+            
+            if canPanDuringThisTouch == false {
+                return
+            }
             
             let currentPos = sender.location(in: self)
             
@@ -234,6 +240,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 
             } else {
                 
+                canPanDuringThisTouch = true // reset this value for the next interaction
+                
                 // Get back to the original position
                 imageCropView.changeScrollable(true)
                 
@@ -250,7 +258,6 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 }, completion: nil)
                 
                 dragDirection = Direction.up
-                
             }
         }
         
