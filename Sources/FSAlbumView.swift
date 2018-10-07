@@ -75,10 +75,10 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             imageCropViewContainer.addConstraint(
                 NSLayoutConstraint(item: imageCropViewContainer,
-                                   attribute: NSLayoutAttribute.height,
-                                   relatedBy: NSLayoutRelation.equal,
+                                   attribute: NSLayoutConstraint.Attribute.height,
+                                   relatedBy: NSLayoutConstraint.Relation.equal,
                                    toItem: imageCropViewContainer,
-                                   attribute: NSLayoutAttribute.width,
+                                   attribute: NSLayoutConstraint.Attribute.width,
                                    multiplier: heightRatio,
                                    constant: 0))
             layoutSubviews()
@@ -116,7 +116,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             changeImage(images[0])
             collectionView.reloadData()
-            collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
+            collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionView.ScrollPosition())
         }
         
         PHPhotoLibrary.shared().register(self)
@@ -138,7 +138,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     @objc func panned(_ sender: UITapGestureRecognizer) {
         
-        if sender.state == UIGestureRecognizerState.began {
+        if sender.state == UIGestureRecognizer.State.began {
             
             let view    = sender.view
             let loc     = sender.location(in: view)
@@ -172,7 +172,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 imageCropView.changeScrollable(true)
             }
             
-        } else if sender.state == UIGestureRecognizerState.changed {
+        } else if sender.state == UIGestureRecognizer.State.changed {
             
             if canPanDuringThisTouch == false {
                 return
@@ -208,7 +208,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             imaginaryCollectionViewOffsetStartPosY = 0.0
             
-            if sender.state == UIGestureRecognizerState.ended &&
+            if sender.state == UIGestureRecognizer.State.ended &&
                 dragDirection == Direction.stop {
                 
                 imageCropView.changeScrollable(true)
@@ -229,7 +229,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 
                 UIView.animate(withDuration: 0.3,
                                delay: 0.0,
-                               options: UIViewAnimationOptions.curveEaseOut,
+                               options: UIView.AnimationOptions.curveEaseOut,
                                animations: {
                                 
                                 self.layoutIfNeeded()
@@ -250,7 +250,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 
                 UIView.animate(withDuration: 0.3,
                                delay: 0.0,
-                               options: UIViewAnimationOptions.curveEaseOut,
+                               options: UIView.AnimationOptions.curveEaseOut,
                                animations: {
                                 
                                 self.layoutIfNeeded()
@@ -317,7 +317,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         
         UIView.animate(withDuration: 0.2,
                        delay: 0.0,
-                       options: UIViewAnimationOptions.curveEaseOut,
+                       options: UIView.AnimationOptions.curveEaseOut,
                        animations: {
                         
                         self.layoutIfNeeded()
